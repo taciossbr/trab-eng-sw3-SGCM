@@ -1,7 +1,7 @@
 import sqlite3
 
 from ..models import ( Material, Exame, Consulta, Paciente,
-                       Pagamento, PagamentoConvenio, PagamentoParticular )
+                       Pagamento, PagamentoConvenio, PagamentoParticular, Medico )
 
 
 class ConnectionFactory:
@@ -34,9 +34,11 @@ def init_db():
             primary key(cod_exame, cod_material)
         );
 
-        create table if not exists consultas(
-            cod_consulta integer primary key autoincrement,
-            data_consulta text not null
+        CREATE TABLE consultas( 
+            cod_consulta integer primary key autoincrement, 
+            data_consulta text not null,
+            crm text not null, 
+            foreign key (crm) references medicos(crm)
         );
 
         create table if not exists exames_consulta(
@@ -76,7 +78,11 @@ def init_db():
             foreign key (cod_consulta) references consultas(cod_consulta),
             foreign key (cpf) references pacientes(cpf),
             primary key (cod_consulta, cpf)
-        );""")
+        );
+        create table medicos(
+            crm text primary key,
+            nome text not null);
+        """)
     print('Banco de Dados Iniciado')
 
 
@@ -187,8 +193,8 @@ class ConsultaDAO(DAO):
         cursor = self.conn.cursor()
         cursor.execute("""
             INSERT INTO consultas
-            (data_consulta)
-            values(?)""", (consulta.data_consulta, ))
+            (data_consulta, crm)
+            values(?, ?)""", (consulta.data_consulta, consulta.medico.crm))
         consulta.cod_consulta = cursor.lastrowid
         dao = ExameDAO(self.conn)
         for exame in consulta.exames:
@@ -211,6 +217,9 @@ class ConsultaDAO(DAO):
         if not consulta.pagamento is None and consulta.pagamento.cod_pagamento is None:
             dao = PagamentoDAO(self.conn)
             dao.add_pagamento(consulta.pagamento, consulta)
+        if not consulta.medico is None:
+            dao = MedicoDAO(self.conn)
+            dao.add_medico(consulta.medico)
         self.conn.commit()
 
     def todas_consultas(self):
@@ -236,6 +245,10 @@ class ConsultaDAO(DAO):
             for row in cursor1.fetchall():
                 pacientes.append(pdao.get_paciente(row[0]))
             consulta = Consulta(tup[1], exames, pacientes, tup[0])
+            crm = tup[2]
+            mdao = MedicoDAO(self.conn)
+            m = mdao.get_medico(crm)
+            consulta.medico = m
             cursor1.execute("""
             SELECT cod_pagamento FROM pagamentos
             WHERE cod_consulta = ?;""", (consulta.cod_consulta,))
@@ -317,3 +330,22 @@ class PagamentoDAO(DAO):
             return PagamentoConvenio(data, tup[0], cod)
         return None
     
+class MedicoDAO(DAO):
+    def add_medico(self, medico:Medico):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            INSERT INTO medicos
+            values(?, ?);""", (medico.crm, medico.nome))
+        self.conn.commit()
+    def get_medico(self, crm):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT * FROM medicos
+            WHERE crm = ?;""", (crm, ))
+        return Medico(*cursor.fetchone())
+    
+    def todos_medicos(self):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT * FROM medicos;""")
+        return [Medico(*row) for row in cursor.fetchall()]

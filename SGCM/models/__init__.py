@@ -36,12 +36,13 @@ class Exame:
 
 
 class Consulta:
-    def __init__(self, data_consulta, exames=None, pacientes=None, cod_consulta=None, pagamento=None):
+    def __init__(self, data_consulta, exames=None, pacientes=None, cod_consulta=None, pagamento=None, medico=None):
         self.cod_consulta = cod_consulta
         self.data_consulta = data_consulta
         self.exames = exames or []
         self.pacientes = pacientes or []
         self.pagamento = pagamento
+        self.medico = medico
 
     def add_exame(self, exame):
         self.exames.append(exame)
@@ -50,7 +51,7 @@ class Consulta:
         self.pacientes.append(paciente)
 
     def __repr__(self):
-        return f"Consulta(cod_consulta={self.cod_consulta},data_consulta='{self.data_consulta}',exames={self.exames},pacientes={self.pacientes},pagamento={self.pagamento})"
+        return f"Consulta(cod_consulta={self.cod_consulta},data_consulta='{self.data_consulta}',exames={self.exames},pacientes={self.pacientes},pagamento={self.pagamento},medico={self.medico})"
 
 
 class Paciente:
@@ -83,3 +84,10 @@ class PagamentoConvenio(Pagamento):
         self.codigo_convenio = codigo_convenio
     def __repr__(self):
         return f"PagamentoConvenio('data_pagamento={self.data_pagamento},codigo_convenio= {self.codigo_convenio},cod_pagador={self.cod_pagamento}')"
+
+class Medico:
+    def __init__(self, crm, nome):
+        self.crm = crm
+        self.nome = nome
+    def __repr__(self):
+        return f"Medico(crm='{self.crm}',nome='{self.nome}')"
