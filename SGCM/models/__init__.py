@@ -36,11 +36,12 @@ class Exame:
 
 
 class Consulta:
-    def __init__(self, data_consulta, exames=None, pacientes=None, cod_consulta=None):
+    def __init__(self, data_consulta, exames=None, pacientes=None, cod_consulta=None, pagamento=None):
         self.cod_consulta = cod_consulta
         self.data_consulta = data_consulta
         self.exames = exames or []
         self.pacientes = pacientes or []
+        self.pagamento = pagamento
 
     def add_exame(self, exame):
         self.exames.append(exame)
@@ -49,7 +50,7 @@ class Consulta:
         self.pacientes.append(paciente)
 
     def __repr__(self):
-        return f"Consulta(cod_consulta={self.cod_consulta},data_consulta='{self.data_consulta}',exames={self.exames},pacientes={self.pacientes})"
+        return f"Consulta(cod_consulta={self.cod_consulta},data_consulta='{self.data_consulta}',exames={self.exames},pacientes={self.pacientes},pagamento={self.pagamento})"
 
 
 class Paciente:
@@ -69,12 +70,16 @@ class Pagamento:
 
 class PagamentoParticular(Pagamento):
     def __init__(self, data_pagamento, nome_pagador, cpf_pagador, cod_pagamento=None):
-        super().__init__(self, data_pagamento, cod_pagamento)
+        Pagamento.__init__(self, data_pagamento, cod_pagamento=cod_pagamento)
         self.nome_pagador = nome_pagador
         self.cpf_pagador = cpf_pagador
+    def __repr__(self):
+        return f"PagamentoParticular('data_pagamento={self.data_pagamento},nome_pagador={self.nome_pagador},cpf_pagador={self.cpf_pagador},cod_pagador={self.cod_pagamento}')"
 
 
 class PagamentoConvenio(Pagamento):
     def __init__(self, data_pagamento, codigo_convenio, cod_pagamento=None):
-        super().__init__(self, data_pagamento, cod_pagamento)
+        Pagamento.__init__(self, data_pagamento, cod_pagamento)
         self.codigo_convenio = codigo_convenio
+    def __repr__(self):
+        return f"PagamentoConvenio('data_pagamento={self.data_pagamento},codigo_convenio= {self.codigo_convenio},cod_pagador={self.cod_pagamento}')"

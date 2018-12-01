@@ -1,6 +1,7 @@
 import sqlite3
 
-from ..models import Material, Exame, Consulta, Paciente
+from ..models import ( Material, Exame, Consulta, Paciente,
+                       Pagamento, PagamentoConvenio, PagamentoParticular )
 
 
 class ConnectionFactory:
@@ -46,9 +47,11 @@ def init_db():
             primary key(cod_exame, cod_consulta)
         );
 
-        create table if not exists pagamentos(
+        create table pagamentos(
             cod_pagamento integer primary key autoincrement,
-            data_pagamento text not null
+            data_pagamento text not null,
+            cod_consulta integer not null,
+            foreign key (cod_consulta) references consultas(cod_consulta)
         );
 
         create table if not exists pagamentos_particulares(
@@ -205,6 +208,9 @@ class ConsultaDAO(DAO):
                     INSERT INTO pacientes_consulta
                     values(?, ?);
                 """, (consulta.cod_consulta, pac.cpf))
+        if not consulta.pagamento is None and consulta.pagamento.cod_pagamento is None:
+            dao = PagamentoDAO(self.conn)
+            dao.add_pagamento(consulta.pagamento, consulta)
         self.conn.commit()
 
     def todas_consultas(self):
@@ -230,6 +236,14 @@ class ConsultaDAO(DAO):
             for row in cursor1.fetchall():
                 pacientes.append(pdao.get_paciente(row[0]))
             consulta = Consulta(tup[1], exames, pacientes, tup[0])
+            cursor1.execute("""
+            SELECT cod_pagamento FROM pagamentos
+            WHERE cod_consulta = ?;""", (consulta.cod_consulta,))
+            tup = cursor1.fetchone()
+            if not tup is None:
+                cod = tup[0]
+                dao = PagamentoDAO(self.conn)
+                consulta.pagamento = dao.get_pagamento(cod)
             consultas.append(consulta)
         return consultas
 
@@ -258,3 +272,48 @@ class PacienteDAO(DAO):
         cursor.execute("""
             SELECT * FROM pacientes""")
         return [Paciente(*row) for row in cursor.fetchall()]
+
+
+class PagamentoDAO(DAO):
+    def add_pagamento(self, pagamento, consulta:Consulta):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            INSERT INTO pagamentos
+            (data_pagamento, cod_consulta)
+            values (?, ?);""", (pagamento.data_pagamento, consulta.cod_consulta))
+        pagamento.cod_pagamento = cursor.lastrowid
+        consulta.pagamento = pagamento
+        if isinstance(pagamento, PagamentoParticular):
+            cursor.execute("""
+                INSERT INTO pagamentos_particulares
+                values (?, ?, ?);""", (pagamento.cod_pagamento, pagamento.nome_pagador, pagamento.cpf_pagador))
+        if isinstance(pagamento, PagamentoConvenio):
+            cursor.execute("""
+                INSERT INTO pagamentos_convenio
+                values (?, ?);""", (pagamento.cod_pagamento, pagamento.codigo_convenio))
+        
+        self.conn.commit()
+    
+    def get_pagamento(self, cod):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+        SELECT data_pagamento FROM pagamentos
+        WHERE cod_pagamento = ?""", (cod,))
+        tup = cursor.fetchone()
+        if tup is None:
+            return None
+        data = tup[0]
+        cursor.execute("""
+        SELECT nome_pagador, cpf_pagador FROM pagamentos_particulares
+        WHERE cod_pagamento = ?""", (cod,))
+        tup = cursor.fetchone()
+        if not tup is None:
+            return PagamentoParticular(data, tup[0], tup[1], cod)
+        cursor.execute("""
+        SELECT cod_convenio FROM pagamentos_convenio
+        WHERE cod_pagamento = ?""", (cod,))
+        tup = cursor.fetchone()
+        if not tup is None:
+            return PagamentoConvenio(data, tup[0], cod)
+        return None
+    
