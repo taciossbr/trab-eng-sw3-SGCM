@@ -7,7 +7,7 @@ from ..models import ( Material, Exame, Consulta, Paciente,
 class ConnectionFactory:
     @classmethod
     def get_conncetion(cls):
-        return sqlite3.connect('sgcm.db')
+        return sqlite3.connect('sgcm.db', check_same_thread=False)
 
 
 def init_db():
@@ -117,6 +117,11 @@ class MaterialDAO(DAO):
             UPDATE materiais
             set tipo_material= ?, nome_material=?
             WHERE cod_material = ?""", (material.tipo_material, material.nome_material, material.cod_material))
+        self.conn.commit()
+    
+    def deleta_material(self, cod_material):
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM materiais WHERE cod_material = ?", (cod_material, ))
         self.conn.commit()
 
     def todos_materiais(self):

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col col-md-4">
+        <form action='/materiais/cadastrar' method='GET'>
+            {% if cod_material %}
+            <div class="form-group">
+                <label for="codMaterial">Código</label>
+                <input type="text" class="form-control" name="codMaterial" id="codMaterial" 
+                    value="{{cod_material}}" readonly>
+            </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="tipoMaterial">Tipo Material</label>
+                <input type="text" class="form-control" name="tipoMaterial" id="tipoMaterial" placeholder="Ex. Seringa"
+                    {% if tipoMaterial %} value="{{ tipoMaterial }}"{% endif %}>
+            </div>
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" name="nome" id="nome" placeholder="Ex. João"
+                    {% if nome %} value="{{ nome }}"{% endif %}>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div class="col col-md-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tipo Material</th>
+                    <th scope="col">Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mat in mats %}
+                <tr>
+                    <th scope="row">{{ mat.cod_material }}</th>
+                    <td>{{ mat.tipo_material }}</td>
+                    <td>{{ mat.nome_material }}</td>
+                    <td><a href="/materiais/deletar/{{mat.cod_material}}" class="btn btn-danger">Deletar</a>
+                    <a href="/materiais/alterar/{{mat.cod_material}}" class="btn btn-primary">Alterar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+</div>
+{% endblock %}

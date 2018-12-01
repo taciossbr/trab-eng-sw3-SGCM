@@ -2,7 +2,6 @@ import os
 import sys
 import SGCM
 
-from flask import g
 from SGCM import app
 from SGCM.models.dao import init_db
 
