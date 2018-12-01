@@ -52,7 +52,7 @@ def cadastrar_material():
         print(e)
         return render_template('list_materiais.html', 
                                mats=dao.todos_materiais(),
-                               error=f'Material não cadastrado :(')
+                               error=f"Material não {'alterado' if cod else 'cadastrado'} :(")
     return 'asdsa'
 
 @mat.route('deletar/<int:code>')

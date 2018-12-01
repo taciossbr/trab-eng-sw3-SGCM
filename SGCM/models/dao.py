@@ -285,6 +285,20 @@ class PacienteDAO(DAO):
         else:
             return None
 
+    def deleta_paciente(self, cpf):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            DELETE FROM pacientes
+            WHERE cpf = ?""", (cpf,))
+        self.conn.commit()
+    def altera_paciente(self, paciente: Paciente):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            UPDATE pacientes
+            set nome = ?
+            WHERE cpf = ?""", (paciente.nome, paciente.cpf))
+        self.conn.commit()
+
     def todos_pacientes(self):
         cursor = self.conn.cursor()
         cursor.execute("""
@@ -342,6 +356,7 @@ class MedicoDAO(DAO):
             INSERT INTO medicos
             values(?, ?);""", (medico.crm, medico.nome))
         self.conn.commit()
+
     def get_medico(self, crm):
         cursor = self.conn.cursor()
         cursor.execute("""
@@ -354,3 +369,18 @@ class MedicoDAO(DAO):
         cursor.execute("""
             SELECT * FROM medicos;""")
         return [Medico(*row) for row in cursor.fetchall()]
+
+    def deleta_medico(self, crm):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            DELETE FROM medicos
+            WHERE crm = ?""", (crm,))
+        self.conn.commit()
+        
+    def altera_medico(self, medico: Medico):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            UPDATE medicos
+            set nome = ?
+            WHERE crm = ?""", (medico.nome, medico.crm))
+        self.conn.commit()
