@@ -39,12 +39,13 @@ G --- UC3
 @startuml classes
 skinparam monochrome true
 skinparam classAttributeIconSize 0
+hide circle
 ' left to right direction
 
 class Materiais {
     + int cod_material
     + string tipo_material
-    + string tipo_material
+    + string nome_material
 }
 
 class Exame {
@@ -62,7 +63,7 @@ class Consulta {
 
 class Paciente {
     + string nome
-    + string nome
+    + string cpf
 }
 
 class Pagamento {
@@ -84,18 +85,18 @@ class Medico {
     + string nome
 }
 
-Materiais "1..*" -- "1..*" Exame
+Materiais "1..*" --- "1..*" Exame
 
-Exame "1..*" -- "1..*" Consulta
+Exame "1..*" --- "1..*" Consulta
 
-Consulta "1..*" -- "1..*" Paciente
+Consulta "1..*" --- "1..*" Paciente
 
-Medico "1" -- "1..*" Consulta
+Medico "1" --- "1..*" Consulta
 
-PagamentoConvenio -|> Pagamento
+PagamentoConvenio --|> Pagamento
 
-PagamentoParticular -|> Pagamento
+PagamentoParticular --|> Pagamento
 
-Pagamento -* Consulta
+Pagamento --* Consulta
 
 @enduml
