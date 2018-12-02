@@ -33,8 +33,10 @@
                 <tr>
                     <th scope="row">{{ med.crm }}</th>
                     <td>{{ med.nome }}</td>
-                    <td><a href="/medicos/deletar/{{med.crm}}" class="btn btn-danger">Deletar</a>
-                    <a href="/medicos/alterar/{{med.crm}}" class="btn btn-primary">Alterar</a></td>
+                    <td>
+                        <a href="/medicos/deletar/{{med.crm}}" class="btn btn-danger">Deletar</a>
+                        <a href="/medicos/alterar/{{med.crm}}" class="btn btn-primary">Alterar</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

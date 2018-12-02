@@ -4,8 +4,7 @@ from jinja2 import TemplateNotFound
 from ..models.dao import ConnectionFactory, MaterialDAO
 from ..models import Material
 
-mat = Blueprint('materiais', __name__,
-                      template_folder='views')
+mat = Blueprint('materiais', __name__)
 
 
 @mat.route('/')

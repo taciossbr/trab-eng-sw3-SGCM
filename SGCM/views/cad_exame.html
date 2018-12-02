@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4 {% if not exames %}offset-md-4{% endif %}">
+        <form method="POST">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" 
+                    placeholder="Ex. Hemograma" 
+                    {% if flag is equalto('agendar') %} readonly {% endif %}
+                    {% if nome %} value="{{ nome }}" {% endif %}>
+            </div>
+            {% if flag is equalto('agendar') %}
+            <div class="form-group">
+                <label for="data">Data</label>
+                <input type="date" class="form-control" id="data" name="data">
+            </div>
+            {% endif %}
+            {% if flag is equalto('solicitar') %}
+            <div>
+                <h4>Materiais</h4>
+                <div class="form-group">
+                    <div id="materiais">
+                        <label for="material-1">Material 1</label>
+                        <div class="form-group row">
+                            <div class="col col-9">
+                                <select class="form-control" id="material-1" name='material-1'
+                                    {% if flag is equalto('agendar') %} readonly {% endif %}>
+                                    {% for mat in mats %}
+                                    <option value="{{ mat.cod_material }}">
+                                        {{ mat.tipo_material }} - {{ mat.nome_material }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col col-3">
+                            <input type="number" min='1' class="form-control col-xs-4" name='qnt-material-1'
+                                placeholder='Qtd.'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" id='nm'>+ Material</button>
+            </div>
+            <br>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+        <script>
+            let c = 2
+            $('#nm').click(() => {
+                $('#materiais').append(`
+                <label for="material-${c}">Material ${c}</label>
+                        <div class="form-group row">
+                            <div class="col col-9">
+                                <select class="form-control" id="material-${c}" name='material-${c}'>
+                                    {% for mat in mats %}
+                                    <option value="{{ mat.cod_material }}">
+                                        {{ mat.tipo_material }} - {{ mat.nome_material }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col col-3">
+                            <input type="number" min='1' class="form-control" 
+                                name='qnt-material-${c++}' placeholder='Qtd.'>
+                            </div>
+                        </div>
+                `)
+            })
+        </script>
+    </div>
+    {% if exames %}
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Desc.</th>
+                    <th scope="col">Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in exames %}
+                <tr>
+                    <th scope="row">{{ e.cod_exame }}</th>
+                    <td>{{ e.nome_exame }}</td>
+                    <td>
+                        {% if e.data_exame %}
+                        {{ e.data_exame }}
+                        {% else %}
+                        <a href="/exames/agendar/{{e.cod_exame}}" class="btn btn-info">Agendar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

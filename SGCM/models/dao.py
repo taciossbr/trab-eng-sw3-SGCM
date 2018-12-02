@@ -22,7 +22,7 @@ def init_db():
         create table if not exists exames(
             cod_exame integer primary key autoincrement,
 			nome_exame text not null,
-            data_exame text not null
+            data_exame text
         );
 
         create table if not exists materiais_exame(
@@ -172,10 +172,46 @@ class ExameDAO(DAO):
 
         return exame
 
-    def todos_exames(self):
+    def vincula_consulta(self, exame:Exame, consulta:Consulta):
+        cursor = self.conn.cursor()
+        if exame.cod_exame is None:
+            self.add_exame(exame)
+        if consulta.cod_consulta is None:
+            print('new')
+            dao = ConsultaDAO(self.conn)
+            dao.add_consulta(consulta)
+        cursor.execute("""
+            INSERT INTO exames_consulta
+            values (?, ?);""", (exame.cod_exame, consulta.cod_consulta))
+        self.conn.commit()
+
+    def agenda_consulta(self, exame:Exame):
         cursor = self.conn.cursor()
         cursor.execute("""
-            SELECT nome_exame, data_exame, cod_exame FROM exames;""")
+            UPDATE exames
+            SET data_exame = ? WHERE cod_exame = ?;""", (exame.data_exame, exame.cod_exame))
+        self.conn.commit()
+
+    def get_consulta(self, cod):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+        SELECT cod_consulta FROM exames
+        join exames_consulta on exames_consulta.cod_exame == exames.cod_exame
+        WHERE exames.cod_exame = ?;""", (cod,))
+        dao = ConsultaDAO(self.conn)
+        return dao.get_consulta(cursor.fetchone()[0])
+
+
+    def todos_exames(self, cod_consulta=None):
+        cursor = self.conn.cursor()
+        if cod_consulta:
+            cursor.execute("""
+                SELECT nome_exame, data_exame, exames.cod_exame FROM exames
+                JOIN exames_consulta ON exames_consulta.cod_exame == exames.cod_exame
+                WHERE exames_consulta.cod_consulta = ?;""", (cod_consulta,))
+        else:
+            cursor.execute("""
+                SELECT nome_exame, data_exame, cod_exame FROM exames;""")
         exames = []
         for tup in cursor.fetchall():
             mats = []
@@ -215,22 +251,29 @@ class ConsultaDAO(DAO):
             if dao.get_paciente(pac.cpf) is None:
                 print('new)')
                 dao.add_paciente(pac)
-                cursor.execute("""
-                    INSERT INTO pacientes_consulta
-                    values(?, ?);
-                """, (consulta.cod_consulta, pac.cpf))
+            cursor.execute("""
+                INSERT INTO pacientes_consulta
+                values(?, ?);
+            """, (consulta.cod_consulta, pac.cpf))
         if not consulta.pagamento is None and consulta.pagamento.cod_pagamento is None:
             dao = PagamentoDAO(self.conn)
             dao.add_pagamento(consulta.pagamento, consulta)
         if not consulta.medico is None:
             dao = MedicoDAO(self.conn)
-            dao.add_medico(consulta.medico)
+            if not dao.get_medico(consulta.medico.crm):
+                dao.add_medico(consulta.medico)
         self.conn.commit()
 
-    def todas_consultas(self):
+    def todas_consultas(self, cpf=None):
         cursor = self.conn.cursor()
-        cursor.execute("""
-            SELECT * FROM consultas;""")
+        if cpf:
+            cursor.execute("""
+                SELECT consultas.cod_consulta, data_consulta, crm FROM consultas
+                JOIN pacientes_consulta ON pacientes_consulta.cod_consulta = consultas.cod_consulta
+                WHERE cpf = ?;""", (cpf,))
+        else:
+            cursor.execute("""
+                SELECT * FROM consultas;""")
         edao = ExameDAO(self.conn)
         pdao = PacienteDAO(self.conn)
         consultas = []
@@ -240,7 +283,7 @@ class ConsultaDAO(DAO):
             cursor1.execute("""
             SELECT cod_exame FROM exames_consulta
             WHERE cod_consulta = ?;""", (tup[0],))
-            print('tup', tup[0])
+            # print('tup', tup[0])
             for row in cursor1.fetchall():
                 exames.append(edao.get_exame(row[0]))
             pacientes = []
@@ -264,6 +307,43 @@ class ConsultaDAO(DAO):
                 consulta.pagamento = dao.get_pagamento(cod)
             consultas.append(consulta)
         return consultas
+
+    def get_consulta(self, cod):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT * FROM consultas
+            WHERE cod_consulta = ?;""", (cod,))
+        edao = ExameDAO(self.conn)
+        pdao = PacienteDAO(self.conn)
+        tup = cursor.fetchone()
+        cursor1 = self.conn.cursor()
+        exames = []
+        cursor1.execute("""
+        SELECT cod_exame FROM exames_consulta
+        WHERE cod_consulta = ?;""", (tup[0],))
+        # print('tup', tup[0])
+        for row in cursor1.fetchall():
+            exames.append(edao.get_exame(row[0]))
+        pacientes = []
+        cursor1.execute("""
+        SELECT cpf FROM pacientes_consulta
+        WHERE cod_consulta = ?;""", (tup[0],))
+        for row in cursor1.fetchall():
+            pacientes.append(pdao.get_paciente(row[0]))
+        consulta = Consulta(tup[1], exames, pacientes, tup[0])
+        crm = tup[2]
+        mdao = MedicoDAO(self.conn)
+        m = mdao.get_medico(crm)
+        consulta.medico = m
+        cursor1.execute("""
+        SELECT cod_pagamento FROM pagamentos
+        WHERE cod_consulta = ?;""", (consulta.cod_consulta,))
+        tup = cursor1.fetchone()
+        if not tup is None:
+            cod = tup[0]
+            dao = PagamentoDAO(self.conn)
+            consulta.pagamento = dao.get_pagamento(cod)
+        return consulta
 
 
 class PacienteDAO(DAO):

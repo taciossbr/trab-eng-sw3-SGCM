@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="564px" preserveAspectRatio="none" style="width:418px;height:564px;" version="1.1" viewBox="0 0 418 564" width="418px" zoomAndPan="magnify"><defs><filter height="300%" id="f7q5rh4gkckkp" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--entity at--><ellipse cx="42.5" cy="292.5" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="8" ry="8" style="stroke: #383838; stroke-width: 2.0;"/><path d="M42.5,300.5 L42.5,327.5 M29.5,308.5 L55.5,308.5 M42.5,327.5 L29.5,342.5 M42.5,327.5 L55.5,342.5 " fill="none" filter="url(#f7q5rh4gkckkp)" style="stroke: #383838; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="73" x="6" y="362.4951">Atendente</text><!--entity G--><ellipse cx="42.5" cy="433.5" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="8" ry="8" style="stroke: #383838; stroke-width: 2.0;"/><path d="M42.5,441.5 L42.5,468.5 M29.5,449.5 L55.5,449.5 M42.5,468.5 L29.5,483.5 M42.5,468.5 L55.5,483.5 " fill="none" filter="url(#f7q5rh4gkckkp)" style="stroke: #383838; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="57" x="14" y="503.4951">Gerente</text><!--entity M--><ellipse cx="42.5" cy="18.5" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="8" ry="8" style="stroke: #383838; stroke-width: 2.0;"/><path d="M42.5,26.5 L42.5,53.5 M29.5,34.5 L55.5,34.5 M42.5,53.5 L29.5,68.5 M42.5,53.5 L55.5,68.5 " fill="none" filter="url(#f7q5rh4gkckkp)" style="stroke: #383838; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="50" x="17.5" y="88.4951">Médico</text><ellipse cx="303.5118" cy="125.9024" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="95.0118" ry="21.4024" style="stroke: #383838; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="165" x="221.0118" y="130.5508">UC1 - Agendar Consulta</text><ellipse cx="303.3518" cy="203.0704" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="88.3518" ry="20.0704" style="stroke: #383838; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="150" x="228.3518" y="207.7188">UC2 - Agendar Exame</text><ellipse cx="303.5146" cy="529.0848" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="62.5146" ry="24.0848" style="stroke: #383838; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="49" x="279.0146" y="522.6663">«crud»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="92" x="257.5146" y="538.9632">UC3 - Médico</text><ellipse cx="303.4209" cy="281.8662" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="73.4209" ry="23.8662" style="stroke: #383838; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="49" x="278.9209" y="275.1004">«crud»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="110" x="248.4209" y="291.3973">UC4 - Pacientes</text><ellipse cx="303.6644" cy="364.9373" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="69.1644" ry="23.9373" style="stroke: #383838; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="49" x="279.1644" y="358.2852">«crud»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="103" x="252.1644" y="374.5821">UC5 - Materiais</text><ellipse cx="303.6177" cy="447.1235" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="103.6177" ry="23.1235" style="stroke: #383838; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="184" x="211.6177" y="451.772">UC6 - Receber Pagamento</text><ellipse cx="303.4259" cy="49.7852" fill="#F8F8F8" filter="url(#f7q5rh4gkckkp)" rx="84.4259" ry="19.2852" style="stroke: #383838; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="141" x="232.9259" y="54.4336">UC9- Socilitar Exame</text><!--link M to UC9--><path d="M67.5258,50 C102.1027,50 166.1861,50 218.8537,50 " fill="none" id="M-UC9" style="stroke: #383838; stroke-width: 1.0;"/><!--link at to UC1--><path d="M75.1167,282.1564 C104.5169,246.8308 150.6093,197.0248 200,165 C213.6949,156.1203 229.7059,148.8377 244.9851,143.0706 " fill="none" id="at-UC1" style="stroke: #383838; stroke-width: 1.0;"/><!--link at to UC2--><path d="M79.2836,302.3973 C110.7249,284.4177 157.4923,258.8119 200,240 C216.9265,232.5091 235.8853,225.3829 252.9063,219.4203 " fill="none" id="at-UC2" style="stroke: #383838; stroke-width: 1.0;"/><!--link at to UC5--><path d="M79.0658,329.744 C120.8736,336.3116 190.0439,347.1774 240.5622,355.1132 " fill="none" id="at-UC5" style="stroke: #383838; stroke-width: 1.0;"/><!--link at to UC4--><path d="M79.0658,318.1159 C120.0318,311.5236 187.2696,300.7037 237.4885,292.6225 " fill="none" id="at-UC4" style="stroke: #383838; stroke-width: 1.0;"/><!--link at to UC6--><path d="M79.1262,344.8572 C110.6663,362.4393 157.6577,387.7398 200,407 C215.694,414.1387 233.0649,421.175 249.022,427.3079 " fill="none" id="at-UC6" style="stroke: #383838; stroke-width: 1.0;"/><!--link at to G--><path d="M42.5,385.8953 C42.5,398.4022 42.5,410.9091 42.5,423.416 " fill="none" id="at-G" style="stroke: #383838; stroke-width: 1.0;"/><polygon fill="none" points="35.5001,385.5528,42.5,365.5528,49.5001,385.5528,35.5001,385.5528" style="stroke: #383838; stroke-width: 1.0;"/><!--link G to UC3--><path d="M71.1782,472.0322 C114.2157,482.5855 196.2246,502.6949 250.3885,515.9765 " fill="none" id="G-UC3" style="stroke: #383838; stroke-width: 1.0;"/><!--
+@startuml user_case
+left to right direction
+skinparam monochrome true
+
+actor Atendente as at
+actor Gerente as G
+actor Médico as M
+
+
+(UC1 - Agendar Consulta) as UC1
+(UC2 - Agendar Exame) as UC2
+(UC3 - Médico) as UC3<<crud>>
+(UC4 - Pacientes) as UC4<<crud>>
+(UC5 - Materiais) as UC5<<crud>>
+(UC6 - Receber Pagamento) as UC6
+(UC9- Socilitar Exame) as UC9
+
+
+M - - - UC9
+
+at - - - UC1
+at - - - UC2
+at - - - UC5
+at - - - UC4
+at - - - UC6
+
+at <|- G
+
+G - - - UC3
+
+
+@enduml
+
+PlantUML version 1.2018.13(Mon Nov 26 15:11:51 BRST 2018)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 1.8.0_192-b26
+Operating System: Linux
+OS Version: 4.14.83-1-MANJARO
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

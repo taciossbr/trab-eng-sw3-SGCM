@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="row">
-    <div class="col col-md-4">
+    <div class="col col-lg-4">
         <form action='/pacientes/cadastrar' method='GET'>
             <div class="form-group">
                 <label for="cpf">CPF</label>
@@ -21,7 +21,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-    <div class="col col-md-8">
+    <div class="col col-lg-8">
         <table class="table">
             <thead>
                 <tr>
@@ -34,8 +34,12 @@
                 <tr>
                     <th scope="row">{{ pac.cpf }}</th>
                     <td>{{ pac.nome }}</td>
-                    <td><a href="/pacientes/deletar/{{pac.cpf}}" class="btn btn-danger">Deletar</a>
-                    <a href="/pacientes/alterar/{{pac.cpf}}" class="btn btn-primary">Alterar</a></td>
+                    <td>
+                        <a href="/pacientes/deletar/{{pac.cpf}}" class="btn btn-danger">Deletar</a>
+                        <a href="/pacientes/alterar/{{pac.cpf}}" class="btn btn-primary">Alterar</a>
+                        <!-- <a href="/consultas/agendar/p/{{pac.cpf}}" class="btn btn-info">Agendar Consulta</a> -->
+                        <a href="/consultas/p/{{pac.cpf}}" class="btn btn-info">Consultas</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

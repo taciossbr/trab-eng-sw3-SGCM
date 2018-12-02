@@ -1,0 +1,101 @@
+@startuml user_case
+left to right direction
+skinparam monochrome true
+
+actor Atendente as at
+actor Gerente as G
+actor Médico as M
+
+
+(UC1 - Agendar Consulta) as UC1
+(UC2 - Agendar Exame) as UC2
+(UC3 - Médico) as UC3<<crud>>
+(UC4 - Pacientes) as UC4<<crud>>
+(UC5 - Materiais) as UC5<<crud>>
+(UC6 - Receber Pagamento) as UC6
+(UC9- Socilitar Exame) as UC9
+
+
+' Casos de Uso Medico
+M --- UC9
+
+' Casos de uso do atendente
+at --- UC1
+at --- UC2
+at --- UC5
+at --- UC4
+at --- UC6
+
+' Gerente Herda Atendente
+at <|- G
+
+' Casos de Uso Gerente
+G --- UC3
+
+
+@enduml
+
+
+@startuml classes
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+' left to right direction
+
+class Materiais {
+    + int cod_material
+    + string tipo_material
+    + string tipo_material
+}
+
+class Exame {
+    + int cod_exame
+    + string nome_exame
+    + string data_exame
+    + void add_material(material:Material, quantidade:int)
+}
+
+class Consulta {
+    + string data_consulta
+    + void add_exame(exame:Exame)
+    + void add_paciente(paciente:Paciente)
+}
+
+class Paciente {
+    + string nome
+    + string nome
+}
+
+class Pagamento {
+    + int cod_pagamento
+    + string data_pagamento
+}
+
+class PagamentoParticular {
+    + string nome_pagador
+    + string cpf_pagador
+}
+
+class PagamentoConvenio {
+    + string cod_convenio
+}
+
+class Medico {
+    + string crm
+    + string nome
+}
+
+Materiais "1..*" -- "1..*" Exame
+
+Exame "1..*" -- "1..*" Consulta
+
+Consulta "1..*" -- "1..*" Paciente
+
+Medico "1" -- "1..*" Consulta
+
+PagamentoConvenio -|> Pagamento
+
+PagamentoParticular -|> Pagamento
+
+Pagamento -* Consulta
+
+@enduml

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4 {% if not consultas %}offset-md-4{% endif %}">
+        <form method="POST">
+            <div class="form-group">
+                <label for="medico">Médico</label>
+                <select class="form-control" id="medico" name='medico'>
+                    {% for med in meds %}
+                    <option value="{{ med.crm }}"
+                        {% if crm is equalto(med.crm) %} selected {% endif %}>
+                        {{ med.nome }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data">Data</label>
+                <input type="date" class="form-control" id="data" name="data"
+                    {% if data %} value="{{ data }}" {% endif %}>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    {% if consultas %}
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Medico</th>
+                    <th scope="col">Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in consultas %}
+                <tr>
+                    <th scope="row">{{ c.cod_consulta }}</th>
+                    <td>{{ c.medico.nome }}</td>
+                    <td>{{ c.data_consulta }}</td>
+                    <td>
+                        <a href="/exames/solicitar/{{c.cod_consulta}}" class="btn btn-primary">Exame</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

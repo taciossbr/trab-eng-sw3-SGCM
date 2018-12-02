@@ -19,7 +19,7 @@ class Material:
 
 
 class Exame:
-    def __init__(self, nome_exame, data_exame, materiais=None, cod_exame=None):
+    def __init__(self, nome_exame, data_exame=None, materiais=None, cod_exame=None):
         self.cod_exame = cod_exame
         self.nome_exame = nome_exame
         self.data_exame = data_exame
@@ -60,7 +60,7 @@ class Paciente:
         self.cpf = cpf
 
     def __repr__(self):
-        return f"Paciente(nome='{self.nome}'',cpf='{self.cpf}')"
+        return f"Paciente(nome='{self.nome}',cpf='{self.cpf}')"
 
 
 class Pagamento:

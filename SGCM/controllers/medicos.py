@@ -53,7 +53,7 @@ def cadastra_medico():
 
 
 
-@med.route('alterar/<int:crm>')
+@med.route('alterar/<string:crm>')
 def alterar_paciente(crm):
     dao = MedicoDAO(ConnectionFactory.get_conncetion())
     m = dao.get_medico(crm)
@@ -63,7 +63,7 @@ def alterar_paciente(crm):
                            crm=m.crm,
                            alterando=True)
 
-@med.route('deletar/<int:crm>')
+@med.route('deletar/<string:crm>')
 def deletar_paciente(crm):
     dao = MedicoDAO(ConnectionFactory.get_conncetion())
     try:

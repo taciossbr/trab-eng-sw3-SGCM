@@ -5,7 +5,7 @@ from ..models.dao import ConnectionFactory, PacienteDAO
 from ..models import Paciente
 
 pac = Blueprint('pacientes', __name__,
-                      template_folder='views')
+                template_folder='views')
 
 
 @pac.route('/')
@@ -17,6 +17,7 @@ def listagem():
 
     return render_template('list_pacientes.html',
                            pacs=dao.todos_pacientes())
+
 
 @pac.route('cadastrar/')
 def cadastra_paciente():
@@ -53,8 +54,7 @@ def cadastra_paciente():
                                error=f"Paciente não {'alterado' if alterando else 'cadastrado'} :(")
 
 
-
-@pac.route('alterar/<int:cpf>')
+@pac.route('alterar/<string:cpf>')
 def alterar_paciente(cpf):
     dao = PacienteDAO(ConnectionFactory.get_conncetion())
     p = dao.get_paciente(cpf)
@@ -64,16 +64,16 @@ def alterar_paciente(cpf):
                            cpf=p.cpf,
                            alterando=True)
 
-@pac.route('deletar/<int:cpf>')
+
+@pac.route('deletar/<string:cpf>')
 def deletar_paciente(cpf):
     dao = PacienteDAO(ConnectionFactory.get_conncetion())
     try:
         dao.deleta_paciente(cpf)
         return render_template('list_pacientes.html',
-                           pacs=dao.todos_pacientes(),
-                           success=f'Paciente deletado com sucesso.')
+                               pacs=dao.todos_pacientes(),
+                               success=f'Paciente deletado com sucesso.')
     except:
         return render_template('list_pacientes.html',
                                pacs=dao.todos_pacientes(),
                                error='Paciente nao exluido :(')
-
