@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-4 col">
+    <form method='POST'>
+        <div class="form-group">
+            <label for="cod">CPF</label>
+            <input type="text" class="form-control" name="cpf" id="cpf">
+        </div>
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" name="nome" id="nome">
+        </div>
+        <div class="form-group">
+            <label for="preco">Preco</label>
+            <input type="text" class="form-control" name="preco" id="prec">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

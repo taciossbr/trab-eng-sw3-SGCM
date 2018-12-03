@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-4 col">
+    <form method='POST'>
+        <div class="form-group">
+            <label for="cod">Código</label>
+            <input type="text" class="form-control" name="cod" id="cod">
+        </div>
+        <div class="form-group">
+            <label for="nome">Preco</label>
+            <input type="text" class="form-control" name="preco" id="preco">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

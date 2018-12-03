@@ -41,6 +41,10 @@
                     <td>{{ c.data_consulta }}</td>
                     <td>
                         <a href="/exames/solicitar/{{c.cod_consulta}}" class="btn btn-primary">Exame</a>
+                        {% if not c.pagamento %}
+                        <a href="/pagamento/c/{{c.cod_consulta}}" class="btn btn-info">Pagar com Convênio</a>
+                        <a href="/pagamento/p/{{c.cod_consulta}}" class="btn btn-info">Pagar Particular</a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

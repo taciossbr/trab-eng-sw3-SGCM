@@ -46,7 +46,6 @@ def solicitar_exame(cod_consulta):
             c_dao = ConsultaDAO(ConnectionFactory.get_conncetion())
             c = c_dao.get_consulta(cod_consulta)
             dao.vincula_consulta(e, c)
-            print(c)
 
             return render_template('cad_exame.html',
                                    mats=mat_dao.todos_materiais(),

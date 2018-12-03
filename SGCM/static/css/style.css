@@ -1,3 +1,7 @@
 .hide {
     display: none
 }
+
+.main {
+    margin-top: 2em !important
+}

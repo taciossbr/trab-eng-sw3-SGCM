@@ -53,7 +53,9 @@ def init_db():
             cod_pagamento integer primary key autoincrement,
             data_pagamento text not null,
             cod_consulta integer not null,
+            preco real not null,
             foreign key (cod_consulta) references consultas(cod_consulta)
+
         );
 
         create table if not exists pagamentos_particulares(
@@ -159,7 +161,8 @@ class ExameDAO(DAO):
     def get_exame(self, cod_exame):
         cursor = self.conn.cursor()
         cursor.execute("""
-            SELECT nome_exame, data_exame, cod_exame FROM exames;""")
+            SELECT nome_exame, data_exame, cod_exame FROM exames
+            WHERE cod_exame = ?;""", (cod_exame,))
         tup = cursor.fetchone()
         cursor.execute("""
             SELECT * FROM materiais_exame
@@ -391,8 +394,8 @@ class PagamentoDAO(DAO):
         cursor = self.conn.cursor()
         cursor.execute("""
             INSERT INTO pagamentos
-            (data_pagamento, cod_consulta)
-            values (?, ?);""", (pagamento.data_pagamento, consulta.cod_consulta))
+            (data_pagamento, cod_consulta, preco)
+            values (?, ?, ?);""", (pagamento.data_pagamento, consulta.cod_consulta, pagamento.preco))
         pagamento.cod_pagamento = cursor.lastrowid
         consulta.pagamento = pagamento
         if isinstance(pagamento, PagamentoParticular):
@@ -409,12 +412,13 @@ class PagamentoDAO(DAO):
     def get_pagamento(self, cod):
         cursor = self.conn.cursor()
         cursor.execute("""
-        SELECT data_pagamento FROM pagamentos
+        SELECT data_pagamento, preco FROM pagamentos
         WHERE cod_pagamento = ?""", (cod,))
         tup = cursor.fetchone()
         if tup is None:
             return None
         data = tup[0]
+        preco = tup[0]
         cursor.execute("""
         SELECT nome_pagador, cpf_pagador FROM pagamentos_particulares
         WHERE cod_pagamento = ?""", (cod,))
@@ -426,7 +430,7 @@ class PagamentoDAO(DAO):
         WHERE cod_pagamento = ?""", (cod,))
         tup = cursor.fetchone()
         if not tup is None:
-            return PagamentoConvenio(data, tup[0], cod)
+            return PagamentoConvenio(data, tup[0], cod, preco)
         return None
     
 class MedicoDAO(DAO):

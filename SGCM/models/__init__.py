@@ -64,14 +64,15 @@ class Paciente:
 
 
 class Pagamento:
-    def __init__(self, data_pagamento, cod_pagamento=None):
+    def __init__(self, data_pagamento, cod_pagamento=None, preco=20):
         self.cod_pagamento = cod_pagamento
         self.data_pagamento = data_pagamento
+        self.preco = preco
 
 
 class PagamentoParticular(Pagamento):
-    def __init__(self, data_pagamento, nome_pagador, cpf_pagador, cod_pagamento=None):
-        Pagamento.__init__(self, data_pagamento, cod_pagamento=cod_pagamento)
+    def __init__(self, data_pagamento, nome_pagador, cpf_pagador, cod_pagamento=None, preco=20):
+        Pagamento.__init__(self, data_pagamento, cod_pagamento=cod_pagamento, preco=preco)
         self.nome_pagador = nome_pagador
         self.cpf_pagador = cpf_pagador
     def __repr__(self):
@@ -79,8 +80,8 @@ class PagamentoParticular(Pagamento):
 
 
 class PagamentoConvenio(Pagamento):
-    def __init__(self, data_pagamento, codigo_convenio, cod_pagamento=None):
-        Pagamento.__init__(self, data_pagamento, cod_pagamento)
+    def __init__(self, data_pagamento, codigo_convenio, cod_pagamento=None, preco=20):
+        Pagamento.__init__(self, data_pagamento, cod_pagamento, preco=preco)
         self.codigo_convenio = codigo_convenio
     def __repr__(self):
         return f"PagamentoConvenio('data_pagamento={self.data_pagamento},codigo_convenio= {self.codigo_convenio},cod_pagador={self.cod_pagamento}')"
